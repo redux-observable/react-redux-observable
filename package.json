@@ -8,7 +8,7 @@
     "build": "npm run lint && rm -rf lib && babel src -d lib",
     "build_tests": "rm -rf temp && babel test -d temp",
     "clean": "rimraf ./lib; rimraf ./temp;",
-    "test": "npm run build && npm run build_tests && mocha temp && npm run test_typings",
+    "test": "npm run build && npm run build_tests && mocha temp",
     "test_typings": "tsc test/typings.ts --outFile temp/typings.js --target ES2015 --moduleResolution node",
     "prepublish": "npm test"
   },
@@ -58,9 +58,12 @@
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-eslint": "^6.0.3",
+    "babel-plugin-transform-class-properties": "^6.9.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.7.4",
     "babel-plugin-transform-function-bind": "^6.5.2",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-polyfill": "^6.7.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-register": "^6.7.2",
@@ -68,7 +71,13 @@
     "eslint": "^2.10.2",
     "mocha": "^2.4.5",
     "promise": "^7.1.1",
+    "react": "^15.0.2",
+    "redux": "^3.5.2",
     "rimraf": "^2.5.2",
+    "rxjs": "^5.0.0-beta.7",
     "typescript": "^1.8.10"
+  },
+  "dependencies": {
+    "redux-observable": "^0.4.0"
   }
 }

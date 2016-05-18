@@ -3,6 +3,9 @@
     "plugins": [
       "transform-function-bind",
       "transform-es2015-modules-commonjs",
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      "transform-react-jsx",
+      "transform-decorators-legacy",
+      "transform-class-properties"
     ]
 }

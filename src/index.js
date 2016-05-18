@@ -1,1 +1,1 @@
-// YOLO
+export { dispatchOnMount } from './dispatchOnMount';
