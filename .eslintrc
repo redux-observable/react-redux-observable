@@ -235,6 +235,7 @@
     "space-unary-ops": 2,
 
     /* ES6+ */
+
     // disallow using `var`. Must use `let` or `const`
     "no-var": 2,
     "no-class-assign": 2,
@@ -248,6 +249,11 @@
     "arrow-spacing": 2,
     "prefer-arrow-callback": 2,
     "arrow-parens": [0, "as-needed"],
+
+    /* React */
+
+    // Prevent React to be incorrectly marked as unused
+    "react/jsx-uses-react": 2,
   },
   "env": {
     "browser": true,
@@ -258,5 +264,8 @@
   },
   "ecmaFeatures": {
     "jsx": true
-  }
+  },
+  "plugins": [
+    "react"
+  ]
 }

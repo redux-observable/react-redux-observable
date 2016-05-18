@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Subscription } from 'rxjs/Subscription';
 
 const $$reduxObservableSubscription = '@@reduxObservableSubscription';
