@@ -22,7 +22,7 @@ describe('dispatchOnMount', () => {
     };
     let store = createStore(reducer, applyMiddleware(reduxObservable()));
 
-    @dispatchOnMount(() => Observable.of({ type: 'TEST' }))
+    @dispatchOnMount(() => () => Observable.of({ type: 'TEST' }))
     class TestComponent extends Component {
     }
 
@@ -56,7 +56,7 @@ describe('dispatchOnMount', () => {
       };
     });
 
-    @dispatchOnMount(() => source1, () => source2)
+    @dispatchOnMount(() => () => source1, () => () => source2)
     class TestComponent extends Component {
     }
 
@@ -85,7 +85,7 @@ describe('dispatchOnMount', () => {
     let source1 = Observable.of({ type: 'SOURCE1' });
     let source2 = Observable.of({ type: 'SOURCE2' });
 
-    @dispatchOnMount(() => source1, () => source2)
+    @dispatchOnMount(() => () => source1, () => () => source2)
     class TestComponent extends Component {
     }
 
@@ -111,7 +111,7 @@ describe('dispatchOnMount', () => {
 
     let source2 = Observable.of({ type: 'SOURCE2' });
 
-    @dispatchOnMount({ type: 'PLAIN_ACTION' }, () => source2)
+    @dispatchOnMount(() => ({ type: 'PLAIN_ACTION' }), () => () => source2)
     class TestComponent extends Component {
     }
 
@@ -124,6 +124,36 @@ describe('dispatchOnMount', () => {
       { type: '@@redux/INIT' },
       { type: 'PLAIN_ACTION' },
       { type: 'SOURCE2' }
+    ]);
+
+    // since plain actions don't return subscriptions, because they're not functions
+    // let's just be really sure we don't break the unsub in the componentWillUnmount
+    expect(() => comp.componentWillUnmount()).not.to.throw();
+  });
+
+  it('should accept factories that get invoked with props', () => {
+    let reducedActions = [];
+    let reducer = (state, action) => {
+      reducedActions.push(action);
+      return state;
+    };
+    let store = createStore(reducer, applyMiddleware(reduxObservable()));
+
+    @dispatchOnMount(
+      (props) => ({ type: 'PLAIN_ACTION', value: props.value }),
+      (props) => () => Observable.of({ type: 'SOURCE2', value: props.value }))
+    class TestComponent extends Component {
+    }
+
+    let comp = new TestComponent({ value: 'Bilbo Bagginses' });
+    // fake connection?
+    comp.context = { store };
+    comp.componentDidMount();
+
+    expect(reducedActions).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'PLAIN_ACTION', value: 'Bilbo Bagginses' },
+      { type: 'SOURCE2', value: 'Bilbo Bagginses' }
     ]);
 
     // since plain actions don't return subscriptions, because they're not functions

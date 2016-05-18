@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 const $$reduxObservableSubscription = '@@reduxObservableSubscription';
 
-export function dispatchOnMount(...toDispatch) {
+export function dispatchOnMount(...factories) {
   return (ComposedComponent) =>
     class DispatchOnMountComponent extends Component {
       static contextTypes = {
@@ -12,7 +12,7 @@ export function dispatchOnMount(...toDispatch) {
 
       componentDidMount() {
         this[$$reduxObservableSubscription] = new Subscription();
-        toDispatch.map(a => this.context.store.dispatch(a))
+        factories.map(factory => this.context.store.dispatch(factory(this.props)))
           .forEach(sub => sub && this[$$reduxObservableSubscription].add(sub));
       }
 
@@ -21,7 +21,7 @@ export function dispatchOnMount(...toDispatch) {
       }
 
       render() {
-        return (<ComposedComponent {...this.props}/>);
+        return (<ComposedComponent {...this.props} />);
       }
     };
 }
