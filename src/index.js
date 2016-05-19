@@ -1,1 +1,1 @@
-export { dispatchOnMount } from './dispatchOnMount';
+export { dispatchOn } from './dispatchOn';
