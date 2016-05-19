@@ -1,6 +1,6 @@
 {
   "name": "react-redux-observable",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React helpers for redux-observable, e.g. @dispatchOnMount(...actions)",
   "main": "lib/index.js",
   "scripts": {
